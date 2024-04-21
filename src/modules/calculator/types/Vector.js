@@ -1,11 +1,14 @@
+
 class Vector {
     constructor(values = []) {
         this.values = [];
-        values.forEach(el => this.values.push(el));
+        values.forEach(elem => this.values.push(elem));
     }
 
+
+    // vector --> (1; 2; 3)
     toString() {
-        return `(${this.values.map(el => el.toString()).join(' ')})`;
+        return `(${this.values.map( elem => elem.toString()).join('; ') })`;
     }
 }
 

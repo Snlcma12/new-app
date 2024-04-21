@@ -1,54 +1,54 @@
-import  Surface from "../entities";
-import  Point  from "../entities";
-import  Edge from "../entities";
-import  Polygon  from "../entities";
+import Point from "../entities/Point";
+import Edge from "../entities/Edge";
+import Polygon from "../entities/Polygon";
+import Surface from "../entities/Surface";
 
 class Sphere extends Surface {
-    constructor(options = {}) {
-    const { radius = 10, count = 20 } = options;
-    const points = [];
-    const edges = [];
-    const polygons = [];
+    constructor({
+        point = new Point(0, 0, 0),
+        radius = 7.5,
+        scale = 1,
+        color = '#888888',
+        segments = 10
+    }) {
+        super({});
+        radius = Math.abs(radius) * scale;
+        const points = [];
+        const edges = [];
+        const polygons = [];
 
-    for (var lat = 0; lat <= count; lat++) {
-        var theta = (lat * Math.PI) / count;
-        var sinTheta = Math.sin(theta);
-        var cosTheta = Math.cos(theta);
+        for (let i = 0; i <= segments; i++) {
+            const phi = (i / segments) * Math.PI;
+            const y = point.y + radius * Math.cos(phi);
 
-        for (var lon = 0; lon <= count; lon++) {
-            var phi = (lon * 2 * Math.PI) / count;
-            var sinPhi = Math.sin(phi);
-            var cosPhi = Math.cos(phi);
-
-            var x = cosPhi * sinTheta;
-            var y = cosTheta;
-            var z = sinPhi * sinTheta;
-
-            points.push(new Point(radius * x, radius * y, radius * z));
+            for (let j = 0; j <= segments; j++) {
+                const theta = (j / segments) * (2 * Math.PI);
+                const x = point.x + radius * Math.sin(phi) * Math.cos(theta);
+                const z = point.z + radius * Math.sin(phi) * Math.sin(theta);
+                points.push(new Point(x, y, z));
+            }
         }
-    }
 
-    for (var lat = 0; lat < count; lat++) {
-        for (var lon = 0; lon < count; lon++) {
-            var first = lat * (count + 1) + lon;
-            var second = first + count + 1;
-            edges.push(new Edge(first, second));
-            edges.push(new Edge(first + 1, second));
-            edges.push(new Edge(second + 1, first + 1));
-        }
-    }
+        for (let i = 0; i < segments; i++) {
+            for (let j = 0; j < segments; j++) {
+                const p1 = i * (segments + 1) + j;
+                const p2 = p1 + 1;
+                const p3 = (i + 1) * (segments + 1) + j;
+                const p4 = p3 + 1;
 
-    for (let i = 0; i < points.length; i++) {
-        if (points[i + 1 + count]) {
-            polygons.push(new Polygon([
-                i,
-                i + 1,
-                i + 1 + count,
-                i + count
-            ], '#00ffee'));
+                edges.push(new Edge(p1, p2));
+                edges.push(new Edge(p2, p4));
+                edges.push(new Edge(p4, p3));
+                edges.push(new Edge(p3, p1));
+                polygons.push(new Polygon([p1, p2, p4, p3], color));
+            }
         }
-    }
-        super(points, edges, polygons);
+
+        this.points = points; 
+        this.edges = edges; 
+        this.polygons = polygons;
+        this.center = point;
+        this.bulge = true;
     }
 }
 

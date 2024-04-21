@@ -1,4 +1,5 @@
 import React from "react";
+import './Header.css';
 
 class Header extends React.Component {
     constructor(props) {
@@ -7,11 +8,18 @@ class Header extends React.Component {
     }
 
     render() {
-        return(<div>
-            <button onClick={() => this.setPageName('Graph3D')}>Графика 3D</button>
-            <button onClick={() => this.setPageName('Graph2D')}>Графика 2D</button>
-            <button onClick={() => this.setPageName('Calc')}>Калькулятор</button>
-        </div>);
+        return (<>
+            <button onClick={() => this.setPageName('TargetShooter')} className='HeaderBtn'
+            >Мишени</button>
+            <button onClick={() => this.setPageName('StudentSimulator')} className='HeaderBtn'
+            >Игра</button>
+            <button onClick={() => this.setPageName('Graph2D')} className='HeaderBtn'
+            >Графика 2д</button>
+            <button onClick={() => this.setPageName('UniversalCalculator')} className='HeaderBtn'
+            >Калькулятор</button>
+            <button onClick={() => this.setPageName('Graph3D')} className='HeaderBtn'
+            >Графика 3Д</button>
+        </>);
     }
 }
 

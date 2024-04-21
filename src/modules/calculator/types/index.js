@@ -1,7 +1,7 @@
 import Complex from "./Complex";
-import Vector from "./Vector";
-import Matrix from "./Matrix";
 import Member from "./Member";
+import Matrix from "./Matrix";
 import Polynomial from "./Polynomial";
+import Vector from "./Vector";
 
-export { Complex, Vector, Matrix, Member, Polynomial };
+export {Complex, Matrix, Vector, Polynomial, Member};
